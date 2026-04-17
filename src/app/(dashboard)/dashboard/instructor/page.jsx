@@ -13,7 +13,7 @@ import {
   BookOpen,
   Bell,
   Settings,
-  DollarSign
+  Trophy
 } from "lucide-react";
 import Cookies from "js-cookie";
 
@@ -103,7 +103,7 @@ export default function InstructorDashboard() {
             <p className="mt-1 text-gray-600 dark:text-gray-400">Manage your courses and engage with your students.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
                <div className="text-indigo-600 dark:text-indigo-400 mb-2">
                   <BookOpen size={24} />
@@ -118,13 +118,7 @@ export default function InstructorDashboard() {
                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</p>
                <p className="text-2xl font-bold text-gray-900 dark:text-white">1,248</p>
             </div>
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
-               <div className="text-emerald-600 dark:text-emerald-400 mb-2">
-                  <DollarSign size={24} />
-               </div>
-               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Monthly Revenue</p>
-               <p className="text-2xl font-bold text-gray-900 dark:text-white">$4,250</p>
-            </div>
+
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
                <div className="text-orange-600 dark:text-orange-400 mb-2">
                   <Trophy size={24} />
@@ -142,7 +136,6 @@ export default function InstructorDashboard() {
                   <tr>
                     <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">Course Name</th>
                     <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">Enrolled</th>
-                    <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">Revenue</th>
                     <th className="px-6 py-4 text-sm font-bold text-gray-700 dark:text-gray-300">Status</th>
                   </tr>
                 </thead>
@@ -151,7 +144,6 @@ export default function InstructorDashboard() {
                     <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors">
                       <td className="px-6 py-4 text-sm font-medium dark:text-white">Advanced React Patterns {i}</td>
                       <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">324 students</td>
-                      <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">$1,240</td>
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">
                           Published

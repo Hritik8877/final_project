@@ -118,10 +118,7 @@ export default function AdminDashboard() {
             <ShieldCheck size={20} />
             <span className="font-medium text-sm">System Logs</span>
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-indigo-600 transition-all dark:text-gray-400 dark:hover:bg-gray-800/50 cursor-pointer">
-            <BarChart3 size={20} />
-            <span className="font-medium text-sm">Revenue Reports</span>
-          </a>
+
         </nav>
         <div className="border-t border-gray-200 p-4 dark:border-gray-800">
           <button
@@ -170,7 +167,7 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3 mb-12">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 mb-12">
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Registered Users</p>
               <p className="text-4xl font-extrabold text-indigo-600 mt-2">12,842</p>
@@ -178,13 +175,7 @@ export default function AdminDashboard() {
                 <PlusCircle size={12} /> +12% this month
               </p>
             </div>
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
-              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Global Revenue</p>
-              <p className="text-4xl font-extrabold text-emerald-600 mt-2">₹248,500</p>
-              <p className="text-xs text-emerald-600 font-medium mt-2 flex items-center gap-1">
-                <PlusCircle size={12} /> +5.4% this month
-              </p>
-            </div>
+
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-[#111]">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Server Status</p>
               <p className="text-4xl font-extrabold text-blue-500 mt-2">99.9%</p>
