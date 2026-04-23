@@ -70,7 +70,7 @@ export default function AuthProvider({ children }) {
     });
 
     return () => unsubscribe();
-  }, [dispatch]);
+  }, [dispatch, pathname, router]);
 
   return <>{children}</>;
 }

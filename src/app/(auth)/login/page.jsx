@@ -110,7 +110,7 @@ export default function LoginPage() {
         <div className="relative z-10">
            <div className="bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[2rem] max-w-sm">
               <p className="text-white font-medium mb-4 italic">
-                 "The flexibility to switch between teaching and learning is what makes EduCore unique."
+                 &quot;The flexibility to switch between teaching and learning is what makes EduCore unique.&quot;
               </p>
               <div className="flex items-center gap-4">
                  <div className="h-10 w-10 bg-indigo-400 rounded-full"></div>

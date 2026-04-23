@@ -33,33 +33,35 @@ export default function CourseModal({ isOpen, onClose, onSave, initialData, user
   const [showAddLesson, setShowAddLesson] = useState(false);
 
   useEffect(() => {
-    if (initialData) {
-      setFormData({
-        ...initialData,
-        lessons: initialData.lessons || []
-      });
-    } else {
-      // Try to load draft from localStorage if creating a new course
-      const savedDraft = localStorage.getItem("course_draft");
-      if (savedDraft) {
-        try {
-          setFormData(JSON.parse(savedDraft));
-        } catch (e) {
-          console.error("Failed to parse course draft", e);
-        }
-      } else {
-        setFormData({ 
-          title: "", 
-          description: "", 
-          price: "", 
-          category: "Development", 
-          thumbnail: "", 
-          introVideo: "",
-          lessons: [],
-          status: "Draft" 
+    setTimeout(() => {
+      if (initialData) {
+        setFormData({
+          ...initialData,
+          lessons: initialData.lessons || []
         });
+      } else {
+        // Try to load draft from localStorage if creating a new course
+        const savedDraft = localStorage.getItem("course_draft");
+        if (savedDraft) {
+          try {
+            setFormData(JSON.parse(savedDraft));
+          } catch (e) {
+            console.error("Failed to parse course draft", e);
+          }
+        } else {
+          setFormData({ 
+            title: "", 
+            description: "", 
+            price: "", 
+            category: "Development", 
+            thumbnail: "", 
+            introVideo: "",
+            lessons: [],
+            status: "Draft" 
+          });
+        }
       }
-    }
+    }, 0);
   }, [initialData, isOpen]);
 
   // Save to localStorage whenever formData changes (only for new courses)
