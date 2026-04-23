@@ -18,14 +18,19 @@ export const metadata = {
 
 import StoreProvider from "@/providers/StoreProvider";
 import AuthProvider from "@/providers/AuthProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}>
         <StoreProvider>
           <AuthProvider>
-            {children}
+            <ThemeProvider>
+              {children}
+              <Toaster position="top-center" />
+            </ThemeProvider>
           </AuthProvider>
         </StoreProvider>
       </body>

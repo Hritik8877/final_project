@@ -7,6 +7,7 @@ import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { setAuthUser, clearAuthUser } from "@/redux/slices/authSlice";
 import Cookies from "js-cookie";
+import { sanitizeFirestoreData } from "@/lib/firebaseUtils";
 
 export default function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -30,19 +31,25 @@ export default function AuthProvider({ children }) {
           console.error("Error fetching user profile:", err);
         }
 
+        const role = profileData.role || "student";
+        Cookies.set("user-role", role, { expires: 7 });
+
+        const sanitizedProfile = sanitizeFirestoreData(profileData);
+
         dispatch(
           setAuthUser({
             uid: user.uid,
             email: user.email,
             displayName: user.displayName || profileData.displayName,
-            role: profileData.role || "student",
-            ...profileData
+            role: role,
+            ...sanitizedProfile
           })
         );
 
         // Path protection: Redirect if user is on a dashboard they don't belong to
-        const role = profileData.role || "student";
-        if (pathname.startsWith("/dashboard/")) {
+        if (pathname === "/dashboard") {
+          router.replace(`/dashboard/${role}`);
+        } else if (pathname.startsWith("/dashboard/")) {
           const pathSegments = pathname.split("/");
           const currentDashboardRole = pathSegments[2]; // /dashboard/[role]/...
           if (currentDashboardRole && role !== currentDashboardRole) {
@@ -52,6 +59,7 @@ export default function AuthProvider({ children }) {
       } else {
         // Just clear the session; the proxy or user actions will handle redirects
         Cookies.remove("session");
+        Cookies.remove("user-role");
         dispatch(clearAuthUser());
 
         // Redirect unauthenticated users away from protected routes
