@@ -97,7 +97,7 @@ export default function Home() {
               </h1>
               
               <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
-                EduCore is the world's most advanced LMS. Learn from elite instructors, track real-time progress, and earn global credentials.
+                EduCore is the world&apos;s most advanced LMS. Learn from elite instructors, track real-time progress, and earn global credentials.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
