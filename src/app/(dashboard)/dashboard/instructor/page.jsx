@@ -248,7 +248,7 @@ export default function InstructorDashboard() {
 
             <div className="rounded-[2.5rem] border border-gray-100 bg-white overflow-hidden shadow-sm dark:border-gray-800 dark:bg-gray-900">
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
+                <table className="w-full text-left whitespace-nowrap">
                   <thead>
                     <tr className="border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50">
                       <th className="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Curriculum</th>

@@ -191,7 +191,7 @@ export default function AdminDashboard() {
               {loadingUsers ? (
                 <div className="p-12 text-center text-gray-500">Loading user database...</div>
               ) : (
-                <table className="w-full text-left border-collapse">
+                <table className="w-full text-left border-collapse whitespace-nowrap">
                   <thead className="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800">
                     <tr>
                       <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">User</th>

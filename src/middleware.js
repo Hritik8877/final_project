@@ -5,8 +5,10 @@ export function middleware(request) {
   const role = request.cookies.get('user-role')?.value;
   const { pathname } = request.nextUrl;
 
-  // 1. Unauthenticated users trying to access dashboard
-  if (!session && pathname.startsWith('/dashboard')) {
+  const isProtectedPath = pathname.startsWith('/dashboard') || pathname.includes('/learn');
+
+  // 1. Unauthenticated users trying to access protected routes
+  if (!session && isProtectedPath) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

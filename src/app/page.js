@@ -12,13 +12,37 @@ import {
   ChevronRight,
   TrendingUp,
   Award,
-  Zap
+  Zap,
+  Menu,
+  X
 } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { collection, query, limit, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function Home() {
   const { user, loading } = useSelector((state) => state.auth);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [loadingCourses, setLoadingCourses] = useState(true);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const q = query(collection(db, "courses"), limit(3));
+        const snapshot = await getDocs(q);
+        const coursesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCourses(coursesData);
+      } catch (err) {
+        console.error("Failed to fetch courses:", err);
+      } finally {
+        setLoadingCourses(false);
+      }
+    };
+    fetchCourses();
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -58,12 +82,12 @@ export default function Home() {
             <div className="h-6 w-[1px] bg-gray-200 dark:bg-gray-800 hidden sm:block"></div>
             {!loading && (
               user ? (
-                <Link href={`/dashboard/${user.role || 'student'}`} className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <Link href={`/dashboard/${user.role || 'student'}`} className="hidden sm:block bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
                   Dashboard
                 </Link>
               ) : (
-                <div className="flex items-center gap-2">
-                  <Link href="/login" className="hidden sm:block text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition-colors px-4">
+                <div className="hidden sm:flex items-center gap-2">
+                  <Link href="/login" className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 transition-colors px-4">
                     Sign in
                   </Link>
                   <Link href="/register" className="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all">
@@ -72,8 +96,42 @@ export default function Home() {
                 </div>
               )
             )}
+            
+            {/* Mobile Menu Button */}
+            <button 
+              className="lg:hidden p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden absolute top-full left-0 w-full bg-white dark:bg-[#0A0A0A] border-b border-gray-100 dark:border-gray-900 shadow-xl py-4 px-6 flex flex-col gap-4">
+            <a href="#courses" onClick={() => setMobileMenuOpen(false)} className="text-lg font-bold text-gray-700 dark:text-gray-300">Courses</a>
+            <a href="#instructors" onClick={() => setMobileMenuOpen(false)} className="text-lg font-bold text-gray-700 dark:text-gray-300">Instructors</a>
+            <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="text-lg font-bold text-gray-700 dark:text-gray-300">Pricing</a>
+            <hr className="border-gray-100 dark:border-gray-800 my-2" />
+            {!loading && (
+              user ? (
+                <Link href={`/dashboard/${user.role || 'student'}`} className="bg-indigo-600 text-center text-white px-6 py-3 rounded-xl text-lg font-bold shadow-lg shadow-indigo-600/20">
+                  Dashboard
+                </Link>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <Link href="/login" className="text-center py-3 text-lg font-bold text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-xl">
+                    Sign in
+                  </Link>
+                  <Link href="/register" className="bg-indigo-600 text-center text-white px-6 py-3 rounded-xl text-lg font-bold shadow-lg shadow-indigo-600/20">
+                    Join Free
+                  </Link>
+                </div>
+              )
+            )}
+          </div>
+        )}
       </nav>
 
       <main className="flex-1">
@@ -192,36 +250,51 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {[
-                { title: "Full-Stack Web Engineering", instructor: "Sarah J. Drasner", rating: 4.9, students: "12K", price: "$99", color: "from-blue-500 to-indigo-600" },
-                { title: "AI & Machine Learning", instructor: "Andrew Ng", rating: 5.0, students: "45K", price: "$129", color: "from-violet-500 to-purple-600" },
-                { title: "Product Design Systems", instructor: "Gary Simon", rating: 4.8, students: "8K", price: "$79", color: "from-orange-500 to-red-600" }
-              ].map((course, i) => (
-                <div key={i} className="group flex flex-col h-full bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 hover:border-indigo-600/50 hover:shadow-2xl transition-all duration-500">
-                  <div className={`h-64 bg-gradient-to-br ${course.color} relative overflow-hidden`}>
-                     <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                     <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/80 backdrop-blur-md px-4 py-2 rounded-full text-sm font-black shadow-lg">
-                        {course.price}
-                     </div>
-                  </div>
-                  <div className="p-8 flex-1 flex flex-col">
-                    <div className="flex items-center gap-2 mb-4">
-                       <div className="flex text-amber-400"><Star size={16} fill="currentColor" /></div>
-                       <span className="text-sm font-black dark:text-white">{course.rating}</span>
-                       <span className="text-gray-400">•</span>
-                       <span className="text-sm text-gray-400">{course.students} students</span>
+              {loadingCourses ? (
+                [1, 2, 3].map((skeleton) => (
+                  <div key={skeleton} className="h-[500px] bg-gray-100 dark:bg-gray-800 rounded-[2.5rem] animate-pulse"></div>
+                ))
+              ) : courses.length > 0 ? courses.map((course, i) => {
+                const colors = [
+                  "from-blue-500 to-indigo-600",
+                  "from-violet-500 to-purple-600",
+                  "from-orange-500 to-red-600",
+                  "from-emerald-500 to-teal-600"
+                ];
+                const color = colors[i % colors.length];
+                
+                return (
+                  <div key={course.id || i} className="group flex flex-col h-full bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-800 hover:border-indigo-600/50 hover:shadow-2xl transition-all duration-500">
+                    <div className={`h-64 bg-gradient-to-br ${color} relative overflow-hidden`}>
+                       {course.thumbnail && <img src={course.thumbnail} alt={course.title} className="w-full h-full object-cover mix-blend-overlay opacity-50 group-hover:opacity-100 transition-opacity" />}
+                       <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                       <div className="absolute top-6 right-6 bg-white/90 dark:bg-black/80 backdrop-blur-md px-4 py-2 rounded-full text-sm font-black shadow-lg">
+                          ${course.price || "Free"}
+                       </div>
                     </div>
-                    <h3 className="text-2xl font-black mb-3 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight">{course.title}</h3>
-                    <p className="text-gray-500 dark:text-gray-400 font-bold text-sm mb-8">with {course.instructor}</p>
-                    
-                    <div className="mt-auto pt-6 border-t border-gray-50 dark:border-gray-800">
-                       <button className="w-full py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-black hover:bg-indigo-600 hover:text-white transition-all">
-                          Enroll Now
-                       </button>
+                    <div className="p-8 flex-1 flex flex-col">
+                      <div className="flex items-center gap-2 mb-4">
+                         <div className="flex text-amber-400"><Star size={16} fill="currentColor" /></div>
+                         <span className="text-sm font-black dark:text-white">{course.rating || "5.0"}</span>
+                         <span className="text-gray-400">•</span>
+                         <span className="text-sm text-gray-400">{course.students || 0} students</span>
+                      </div>
+                      <h3 className="text-2xl font-black mb-3 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight">{course.title}</h3>
+                      <p className="text-gray-500 dark:text-gray-400 font-bold text-sm mb-8 line-clamp-2">{course.description || `with ${course.instructorName}`}</p>
+                      
+                      <div className="mt-auto pt-6 border-t border-gray-50 dark:border-gray-800">
+                         <Link href={`/course/${course.id}`} className="w-full py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white font-black hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center">
+                            View Course
+                         </Link>
+                      </div>
                     </div>
                   </div>
+                );
+              }) : (
+                <div className="col-span-1 md:col-span-3 text-center py-20 bg-white dark:bg-gray-900 rounded-[2.5rem] border border-gray-100 dark:border-gray-800">
+                   <p className="text-xl font-bold text-gray-500 dark:text-gray-400">No courses available at the moment.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
