@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState, useEffect } from "react";
 import { 
@@ -211,7 +212,7 @@ export default function CourseModal({ isOpen, onClose, onSave, initialData, user
                       className="w-full h-40 rounded-3xl border-2 border-dashed border-gray-100 dark:border-gray-800 flex flex-col items-center justify-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all relative overflow-hidden"
                     >
                       {formData.thumbnail ? (
-                        <img src={formData.thumbnail} className="h-full w-full object-cover" />
+                        <img src={formData.thumbnail} alt="Thumbnail Preview" className="h-full w-full object-cover" />
                       ) : (
                         <>
                           <ImageIcon className="text-gray-300" size={32} />

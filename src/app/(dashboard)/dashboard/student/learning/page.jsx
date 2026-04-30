@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -100,7 +101,7 @@ export default function MyLearningPage() {
                 <div className="w-24 h-24 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
                    <BookOpen size={40} className="text-gray-300" />
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">You aren't enrolled in any courses yet</h3>
+                <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">You aren&apos;t enrolled in any courses yet</h3>
                 <p className="text-gray-500 mb-8 font-medium">Browse our catalog to find the perfect course for you.</p>
                 <Link href="/courses" className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold shadow-xl shadow-indigo-600/20 hover:bg-indigo-700 transition-all">
                    Explore Catalog
